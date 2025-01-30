@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
     <title>Calculator</title>
 </head>
-<body>
+<body>  
     <div class="container">
     <div class="container-1">
         <div class="answerBar">
-            <h1>0</h1>
+            <h1 id="h1">0</h1>
         </div>
     </div>
     <div class="buttons">
@@ -22,25 +22,25 @@
             <button id="deleteAnswer">←</button>
         </div>            
         <div class="numbers">
-            <button id="numberSeven">7</button>
-            <button id="numberEight">8</button>
-            <button id="numberNine">9</button>
-            <button id="numberFour">4</button>
-            <button id="numberFive">5</button>
-            <button id="numberSix">6</button>
-            <button id="numberOne">1</button>
-            <button id="numberTwo">2</button>
-            <button id="numberThree">3</button>
-            <button id="numberZero">0</button>
+            <button class="numBtn"  id="numberSeven" name="7">7</button>
+            <button class="numBtn"  id="numberEight" name="8">8</button>
+            <button class="numBtn"  id="numberNine" name="9">9</button>
+            <button class="numBtn"  id="numberFour" name="4">4</button>
+            <button class="numBtn"  id="numberFive" name="5">5</button>
+            <button class="numBtn"  id="numberSix" name="6">6</button>
+            <button class="numBtn"  id="numberOne" name="1">1</button>
+            <button class="numBtn"  id="numberTwo" name="2">2</button>
+            <button class="numBtn"  id="numberThree" name="3">3</button>
+            <button class="numBtn"  id="numberZero" name="0">0</button>
         </div>
     </div>
 
         <div class="secondColumn">
-            <button id="divideButton">÷</button>
-            <button id="multiplicationButton">×</button>
-            <button id="substractionButton">-</button>
-            <button id="additionButton">+</button>
-            <button id="equalButton">=</button>
+            <button id="divideButton" onclick="handleOperator('/')">÷</button>
+            <button id="multiplicationButton" onclick="handleOperator('*')">×</button>
+            <button id="substractionButton" onclick="handleOperator('-')">-</button>
+            <button id="additionButton" onclick="handleOperator('+')">+</button>
+            <button id="equalButton" onclick="calculate()">=</button>
         </div>
     </div>  
 </div>
