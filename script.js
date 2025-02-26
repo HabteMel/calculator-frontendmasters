@@ -1,77 +1,105 @@
-const divideBtn = document.querySelector("#divideButton");
-const multiplyBtn = document.querySelector("#multiplyButton");
-const sustractionBtn = document.querySelector("#substractionButton");
-const additionBtn = document.querySelector("#additionButton");
-const clearBtn = document.querySelector("#cleanAnswer");
-const backspaceBtn = document.querySelector("#deleteAnswer");
+// some way of handling the numbers
+// some way of handling the symbols
+// handling the clear,backspace,equal sign
 
-const numButtons = document.querySelectorAll('.numBtn');
+// Events: 
+// 
+//  => button clicked, converts the number(innerText) to integer
+// => checks if it is symbol or number, 
+// => if it is a number run handleNumber()
+// => else run handleSymbol()
+
 const display = document.querySelector("#h1");
+let buffer = '0';
+let previousOperator = null;
+let total = 0;
 
-
-let currentInput = '0';
-let previousValue = null;
-let operator = null;
-
-
-function updateDisplay(){
-    display.textContent = currentInput;
+function buttonClicked(value) {
+    if(isNaN(parseInt(value)))
+    {
+        handleSymbols(value)    
+    }else {
+        handleNumbers(value)
+    }
+    displayNum()
 }
 
-numButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        if(currentInput == '0'){
-            currentInput = button.innerText;
-        }else {
-            currentInput +=button.innerText;
-        }
-        updateDisplay()
+function handleNumbers(num){
+    if(buffer === '0'){
+        buffer = num;
+    }else {
+        buffer += num;
+    }
+}
+
+function handleSymbols(symbol){
+    switch(symbol){
+        case '+':
+        case '-':
+        case '÷':
+        case '×':
+            handleMath(symbol);
+            break;
+        case '=':
+            if(previousOperator === null){
+                return;
+            }
+            operation(parseInt(buffer))
+            previousOperator = null;
+            buffer = "" + total;
+            total = 0;
+            break;
+        case 'C':
+            buffer = '0';
+            break;
+        case '←':
+            if(buffer.length === 1){
+                    buffer = 0
+            }else {
+                buffer = buffer.substring(0, buffer.length - 1)
+            }
+            break;
+    }
+}
+
+function handleMath(value){
+    if(buffer === 0){
+        return;
+    }
+    const intBuffer = parseInt(buffer);
+    if(total === 0){
+        total = intBuffer;
+    }else {
+        operation(intBuffer)
+    }
+
+    previousOperator = value;
+    buffer = '0';
+    console.log(total)
+}
+
+function operation(intBuffer) {
+    if(previousOperator === '+'){
+        total = intBuffer + total
+    }else if (previousOperator === '-'){
+        total = total - intBuffer
+    }else if (previousOperator === '×'){
+        total = total * intBuffer
+    }else if(previousOperator === '÷'){
+        total =  total / intBuffer
+    }
+}
+
+function init() {
+    document
+    .querySelector(".buttons")
+    .addEventListener("click", function(event) {
+        buttonClicked(event.target.innerText)
     })
-})
-
-
-function clear() 
-{
-        currentInput = '0';
-        previousValue = null;
-        operator = null;
-        updateDisplay();
 }
 
-function backspace() {
-    if(currentInput.length === 1 ){
-        currentInput = '0';
-    }else {
-        currentInput = currentInput.slice(0,-1);
-    }
-    updateDisplay();
-};
-
-function handleOperator(op){
-    if(previousValue === null){
-        previousValue = parseFloat(currentInput);
-        currentInput = '0';
-        operator = op;
-    }else {
-        calculate();
-        operator = op;
-    }
+function displayNum(){
+    display.innerText = buffer;
 }
 
-function calculate(){
-    const currentInputNum = parseFloat(currentInput);
-
-    if(operator === '+') {
-        currentInput = (previousValue + currentInputNum).toString();
-    } else if (operator === '-') {
-        currentInput = (previousValue - currentInputNum).toString();
-    } else if(operator === 'x') {
-        currentInput = (previousValue * currentInputNum).toString();
-    } else if(operator === '/') {
-        currentInput = (previousValue / currentInputNum).toString();
-    }
-    updateDisplay();
-}
-
-clearBtn.addEventListener('click', clear);
-backspaceBtn.addEventListener('click', backspace);
+init()
