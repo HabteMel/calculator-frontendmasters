@@ -75,7 +75,6 @@ function handleMath(value){
 
     previousOperator = value;
     buffer = '0';
-    console.log(total)
 }
 
 function operation(intBuffer) {
